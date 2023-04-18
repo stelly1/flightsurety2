@@ -72,6 +72,7 @@ contract FlightSuretyApp {
         _;
     }
 
+    //check if caller is existing airline
     modifier requireExistingAirline() {
         require(data.isAirline(msg.sender), "Caller is not an already existing airline");
         _;
