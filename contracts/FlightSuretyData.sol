@@ -13,12 +13,14 @@ contract FlightSuretyData {
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
 
+    //struct to store insured person's information 
     struct Insured {
         address addr;
         uint256 insuredAmount;
         bool isPayed;
     }
 
+    //struct to store airline information
     struct Airline {
         address addr;
         string name;
@@ -27,22 +29,32 @@ contract FlightSuretyData {
         bool isFunded;
     }
 
+    //variable to store # of airlines approved by contract owner
     uint256 private totalApprovedAirlines = 0;
 
+    //array to store addresses of registered airlines
     address[] private airlines;
+    //array to store address of all registered airlines
     address[] private authorizedCallers;
 
+    //map airline address to airline struct that are currently operating
     mapping(address => Airline) private operatingAirlines;
+    //map address to uint256 value and store address in contract
     mapping(address => uint256) balanceOf;
+    //map flight #s to array of insured structs
     mapping(bytes32 => Insured[]) private flightInsurees;
 
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
 
+    //event triggered when new airline is registered
     event RegisterAirline(address airline, string name);
+    //event triggered when insurance is purchased
     event BuyFlightInsurance(bytes32 flight, address insuree);
+    //event triggered when insurance is paid due to cancelation or delay
     event InsurancePayout(bytes32 flight, address insuree);
+    //event triggered when airline is funded
     event FundAirline(address airline);
 
     /**
@@ -50,10 +62,15 @@ contract FlightSuretyData {
     *      The deploying account becomes contractOwner
     */
     constructor(address addr) public  {
+        //set contractOwner as contract deployer
         contractOwner = msg.sender;
+        //add new airline data to struct
         Airline memory newAirline = Airline(addr, "Nouns Flight Zone DAO", 0, true, false);
+        //provides address
         airlines.push(addr);
+        //add to mapping
         operatingAirlines[addr] = newAirline;
+        //increment counter
         totalApprovedAirlines += 1;
     }
 
@@ -105,6 +122,7 @@ contract FlightSuretyData {
         operational = mode;
     }
 
+    //allow contract owner to add authorized caller to contract
     function authorizeCaller(address caller) external requireContractOwner {
         authorizedCallers.push(caller);
     }
@@ -127,7 +145,7 @@ contract FlightSuretyData {
         operatingAirlines[addr] = newAirline;
         emit RegisterAirline(addr, name);
     }
-
+    //update registration status of airline in operatingAirlines mapping and increment totalApprovedAirlines count
     function _updateAirlineIsRegistered(address addr, bool register) requireIsOperational external {
         Airline memory updateAirline = operatingAirlines[addr];
         operatingAirlines[addr] = updateAirline;
@@ -136,24 +154,29 @@ contract FlightSuretyData {
         }
     }
 
+    //check if address belongs to an airline from Airline struct from operatingAirlines mapping and return true if not 0
     function isAirline(address caller) external view returns(bool success) {
         Airline memory existingAirline = operatingAirlines[caller];
         return existingAirline.addr != address(0);
     }
 
+    //return address of an airline at specified index in airlines array
     function _getAirlineCount() external view returns(uint256) {
         return totalApprovedAirlines;
     } 
 
+    //return total # of approved airlines
     function _getAirlineByIndex(uint256 index) external view returns(address) {
         return airlines[index];
     }
 
+    //return address of airline at specified index in airlines array
     function isAirlineFunded(address airline) external view returns(bool) {
         Airline storage fundedAirline = operatingAirlines[airline];
         return fundedAirline.isFunded;
     }
 
+    //check registration status - retrieve corresponding Airline struct from operatingAirlines mapping and return value of isRegistered boolean
     function isAirlineRegistered(address airline) external view requireIsOperational returns(bool) {
         Airline storage fundedAirline = operatingAirlines[airline];
         return fundedAirline.isRegistered;
@@ -187,9 +210,13 @@ contract FlightSuretyData {
         emit BuyFlightInsurance(flight, insuree);
     }
 
+    //view function to calc amount credited to passenger for a flight
     function _creditInsureeAmount(bytes32 flight, address passenger) external view requireIsOperational returns(uint256) {
+        //retrieves array of insured passengers from flightInsurees mapping
         Insured[] memory insurees = flightInsurees[flight];
+        //store payout variable
         uint256 payout = 0;
+        //calculate payout amount only if contract is operational
         for(uint i = 0; i < insurees.length; i++) {
             if(insurees[i].addr == passenger) {
                 payout = insurees[i].insuredAmount;
@@ -228,6 +255,7 @@ contract FlightSuretyData {
         require(success, "Insurance payout failed");
     }
 
+    //check airline if registered - and prevent airline from being re-registered
     function fundAirline(address airline) external requireIsOperational payable {
         Airline memory fundedAirline = operatingAirlines[airline];
         require(fundedAirline.isRegistered, "Airline must be registered");
@@ -242,7 +270,7 @@ contract FlightSuretyData {
     *      resulting in insurance payouts, the contract should be self-sustaining
     *
     */   
-    function fund () public payable {}
+    function fund () public payable requireIsOperational {}
 
 
     function getFlightKey(address airline, string memory flight, uint256 timestamp) pure internal returns(bytes32) {
