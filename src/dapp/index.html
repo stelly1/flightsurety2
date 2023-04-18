@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>FlightSurety Project</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="flightsurety.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">FlightSurety</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+
+    <main class="container">
+      <div id="display-wrapper" class="top-20"></div>
+      <div class="row top-20">
+        <div id = "display-wrapper" class = "top-20">
+            <hr>
+        </div>
+
+        <div class="row top-20">
+            <div class="col-md-12">
+                <h3>Register Airline</h3>
+                <p>Consensus over 5 airplanes is required - please be advised</p>
+                <form id ="register-airline-form">
+                    <div class="form-group">
+                        <label for="airline-name">Name of Airline</label>
+                        <input type="text" class="form-control" id="new-airline-name" placeholder="Airline Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-airline-address">Airline Address</label>
+                        <input type="text" class="form-control" id="new-airline-address" placeholder="Enter Address"
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register Airline</button>
+                </form>
+            </div>
+        </div>
+    
+        <div class="row top-20">
+            <div class="col-md-12">
+                <h3>Purchase Flight Insurance</h3>
+                <form id = "purchase-insurance-form">
+                    <div class="form-group">
+                        <label for=""airline-address">Airline Address</label>
+                        <select class="form-control" id=""airline-address>
+                            <option>Address</option>
+                        </select>
+                    </div>
+        
+        <div class="row top-20">
+            <div class="col-md-12">
+                <h3>Flight Insurance</h3>
+                    <div class="form-group">
+                        <label for="flight-number">Flight Name</label>
+                        <select class="form-control" id="purchase-flight-number">
+                            <option>MAD</option>
+                            <option>LGA</option>
+                            <option>LAX</option>
+                        </select>
+                    </div>
+
+        <div class="row top-20">
+            <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="insurance-amount">Insurance Amount</label>
+                        <input type="number" class="form-control" id="insurance-amount" min="0" max="1" step=".05" placeholder="0-1 Ether"
+                    </div>
+                    <button type="submit" class="btn btn-primary">Buy Insurance</button>
+            </div>
+
+        <div class="row top-20">
+            <div class="col-md-12">
+                <h3>Flight Updates</h3>
+                <div class="form-group">
+                    <label for="flight-number">Flight #</label>
+                    <select class="form-control" id="flight-number">
+                        <option>MAD</option>
+                        <option>LGA</option>
+                        <option>LAX</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="submit-oracle">Oracle Request</button>
+            </div>
+        </div>
+
+        <div class="row top-20">
+            <div class="col-md-12">
+                <h3>Fund Airline</h3>
+                <form id ="airline-funding-form">
+                    <div class="form-group">
+                        <div class="row top-20">
+                            <div class="col-md-12">
+                            <p>Funding requires 10 Eth - please be advised</p>
+                                <label for="funding-airline-address">Address of Airline</label>
+                                <input type="text" class="form-control" id="funding-airline-address" placeholder="Airline Address">
+                            </div>
+                        </div>
+                    </div>
+                <hr>
+                </form>
+            </div>
+        </div>           
+                <div class="form-group">
+                    <label for="funding-amount">Funding Amount</label>
+                    <input type="number" class="form-control" id="funding-amount" min="10" max="10" placeholder="10" value="10">
+                </div>
+                <button type="submit" class="btn btn-primary">Finalize Funding</button>
+                </form>
+            </div>
+        </div>
+                    
+        <div class = "col-md-12">
+            <div class="col-md-12">   
+                <hr>       
+                <h2>Insurance Payout</h2>
+                <button class="btn btn-primary" id="withdraw-funds">Purchased Insurance Payout</button>
+                <hr>
+            </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

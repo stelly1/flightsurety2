@@ -1,0 +1,50 @@
+body {
+  background-image: url("doge.jpg"); /* Source: iStockPhoto */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  margin-top: 100px;
+  background-color: #000;
+  opacity: 0.9;
+  color: #fff;
+  padding: 40px;
+}
+
+.readonly-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  width: auto;
+  padding: 0;
+}
+.top-20 {
+  margin-top: 20px;
+}
+
+h5 {
+  color: #999999;
+}
+
+section {
+  margin-bottom: 50px;
+}
+
+.field {
+  font-weight: bold;
+  text-align: right;
+}
+
+.field-value {
+  color: #0e7fa8;
+}
+
+label.form {
+  font-size: 14px;
+  margin-right: 2px;
+}
+input {
+  margin-right: 30px;
+}
